@@ -36,6 +36,7 @@
 
 - https://downloads.mysql.com/archives/get/p/3/file/mysql-connector-java-5.1.49.zip  
 - https://sourceforge.net/projects/hibernate/files/hibernate-orm/5.6.5.Final/hibernate-release-5.6.5.Final.zip/download
+- https://eclipse.dev/eclipselink/#download
 
 ## Base de datos de ejemplos
 

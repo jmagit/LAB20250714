@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 
-import com.example.domains.core.entities.AbstractEntity;
+import com.example.core.domain.entities.AbstractEntity;
 
 /**
  * The persistent class for the category database table.

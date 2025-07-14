@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.Timestamp;
 
-import com.example.domains.core.entities.AbstractEntity;
+import com.example.core.domain.entities.AbstractEntity;
 
 
 /**

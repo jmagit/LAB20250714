@@ -1,11 +1,24 @@
 package com.example.domains.entities;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-import com.example.domains.core.entities.AbstractEntity;
+import com.example.core.domain.entities.AbstractEntity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
+
 
 
 /**
@@ -32,11 +45,20 @@ public class Actor extends AbstractEntity<Actor> implements Serializable {
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
 	private Timestamp lastUpdate;
 
-	//bi-directional many-to-one association to FilmActor
-	@OneToMany(mappedBy="actor")
-	private Set<FilmActor> filmActors;
+    @ManyToMany
+    @JoinTable(
+        name = "film_actor",
+        joinColumns = @JoinColumn(name = "actor_id"),
+        inverseJoinColumns = @JoinColumn(name = "film_id")
+    )
+	private Set<Film> films = new HashSet<Film>();
 
 	public Actor() {
+	}
+
+	public Actor(int actorId) {
+		super();
+		this.actorId = actorId;
 	}
 
 	public int getActorId() {
@@ -71,26 +93,50 @@ public class Actor extends AbstractEntity<Actor> implements Serializable {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public Set<FilmActor> getFilmActors() {
-		return this.filmActors;
+	public Set<Film> getFilms() {
+		return this.films;
 	}
 
-	public void setFilmActors(Set<FilmActor> filmActors) {
-		this.filmActors = filmActors;
+	public void setFilms(Set<Film> filmActors) {
+		this.films = filmActors;
 	}
 
-	public FilmActor addFilmActor(FilmActor filmActor) {
-		getFilmActors().add(filmActor);
-		filmActor.setActor(this);
-
-		return filmActor;
+	public Set<Film> addFilm(Film film) {
+		films.add(film);
+		return films;
 	}
 
-	public FilmActor removeFilmActor(FilmActor filmActor) {
-		getFilmActors().remove(filmActor);
-		filmActor.setActor(null);
+//	public Set<Film> addFilm(int id) {
+//		var 
+//		films.add(film);
+//		return films;
+//	}
+//
+//	public FilmActor removeFilmActor(FilmActor filmActor) {
+//		getFilmActors().remove(filmActor);
+//		filmActor.setActor(null);
+//
+//		return filmActor;
+//	}
 
-		return filmActor;
+	@Override
+	public int hashCode() {
+		return Objects.hash(actorId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Actor))
+			return false;
+		return actorId == ((Actor) obj).actorId;
+	}
+
+	@Override
+	public String toString() {
+		return "Actor [actorId=" + actorId + ", firstName=" + firstName + ", lastName=" + lastName + ", lastUpdate="
+				+ lastUpdate + "]";
 	}
 
 }

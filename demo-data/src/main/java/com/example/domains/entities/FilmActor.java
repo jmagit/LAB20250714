@@ -4,7 +4,7 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 
-import com.example.domains.core.entities.AbstractEntity;
+import com.example.core.domain.entities.AbstractEntity;
 
 
 /**

@@ -3,7 +3,7 @@ package com.example.domains.entities;
 import java.io.Serializable;
 import jakarta.persistence.*;
 
-import com.example.domains.core.entities.AbstractEntity;
+import com.example.core.domain.entities.AbstractEntity;
 
 
 /**
