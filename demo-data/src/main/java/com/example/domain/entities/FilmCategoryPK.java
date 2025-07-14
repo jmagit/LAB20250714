@@ -1,4 +1,4 @@
-package com.example.domains.entities;
+package com.example.domain.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
@@ -27,6 +27,7 @@ public class FilmCategoryPK implements Serializable {
 		this.filmId = filmId;
 	}
 	public int getCategoryId() {
+		System.err.println("getCategoryId");
 		return this.categoryId;
 	}
 	public void setCategoryId(int categoryId) {

@@ -1,4 +1,4 @@
-package com.example.domains.entities;
+package com.example.domain.entities;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -375,26 +375,40 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 		return filmActor;
 	}
 
-	public Set<FilmCategory> getFilmCategories() {
-		return this.filmCategories;
+	// Gestión de categorias
+
+	public List<Category> getCategories() {
+		return this.filmCategories.stream().map(item -> item.getCategory()).toList();
 	}
 
-	public void setFilmCategories(Set<FilmCategory> filmCategories) {
-		this.filmCategories = filmCategories;
+	public void setCategories(List<Category> source) {
+		if (filmCategories == null || !filmCategories.isEmpty())
+			clearCategories();
+		source.forEach(item -> addCategory(item));
 	}
 
-	public FilmCategory addFilmCategory(FilmCategory filmCategory) {
-		getFilmCategories().add(filmCategory);
-		filmCategory.setFilm(this);
-
-		return filmCategory;
+	public void clearCategories() {
+		filmCategories = new HashSet<FilmCategory>();
 	}
 
-	public FilmCategory removeFilmCategory(FilmCategory filmCategory) {
-		getFilmCategories().remove(filmCategory);
-		filmCategory.setFilm(null);
+	public void addCategory(Category item) {
+		FilmCategory filmCategory = new FilmCategory(this, item);
+		filmCategories.add(filmCategory);
+	}
 
-		return filmCategory;
+	public void addCategory(int id) {
+		addCategory(new Category(id));
+	}
+
+	public void removeCategory(Category ele) {
+		var filmCategory = filmCategories.stream().filter(item -> item.getCategory().equals(ele)).findFirst();
+		if (filmCategory.isEmpty())
+			return;
+		filmCategories.remove(filmCategory.get());
+	}
+
+	public void removeCategory(int id) {
+		removeCategory(new Category(id));
 	}
 
 	public Set<Inventory> getInventories() {

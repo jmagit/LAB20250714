@@ -11,9 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.domains.entities.Film;
-import com.example.domains.entities.Film.Rating;
-import com.example.domains.entities.Language;
+import com.example.contracts.domain.repositories.ActorRepository;
+import com.example.contracts.domain.repositories.CategoryRepository;
+import com.example.contracts.domain.repositories.FilmRepository;
+import com.example.domain.entities.Film;
+import com.example.domain.entities.Language;
+import com.example.domain.entities.Film.Rating;
 
 import jakarta.transaction.Transactional;
 
@@ -24,6 +27,9 @@ class FilmRepositoryTest {
 	
 	@Autowired
 	ActorRepository daoActor;
+	
+	@Autowired
+	CategoryRepository daoCategory;
 	
 	@Test
 	@Disabled
@@ -50,7 +56,7 @@ class FilmRepositoryTest {
 				new BigDecimal("1.0"), 1, new BigDecimal("1.0"), Rating.GENERAL_AUDIENCES);
 		source.addActor(daoActor.findById(1).get());
 		source.addActor(daoActor.findById(2).get());
-//		source.addCategory(1);
+		source.addCategory(daoCategory.findById(2).get());
 		var actual = dao.save(source);
 		assertNotNull(actual);
 	}

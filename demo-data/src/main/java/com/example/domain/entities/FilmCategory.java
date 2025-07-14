@@ -1,4 +1,4 @@
-package com.example.domains.entities;
+package com.example.domain.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
@@ -18,7 +18,7 @@ public class FilmCategory extends AbstractEntity<FilmCategory> implements Serial
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private FilmCategoryPK id;
+	private FilmCategoryPK id/* = new FilmCategoryPK()*/;
 
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
 	private Timestamp lastUpdate;
@@ -36,6 +36,13 @@ public class FilmCategory extends AbstractEntity<FilmCategory> implements Serial
 	private Film film;
 
 	public FilmCategory() {
+	}
+
+	public FilmCategory(Film film, Category category) {
+		super();
+		id = new FilmCategoryPK();
+		this.film = film;
+		this.category = category;
 	}
 
 	public FilmCategoryPK getId() {

@@ -1,4 +1,4 @@
-package com.example.domains.entities;
+package com.example.domain.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;

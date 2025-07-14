@@ -1,7 +1,9 @@
-package com.example.domains.entities;
+package com.example.domain.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import com.example.core.domain.entities.AbstractEntity;
  */
 @Entity
 @Table(name="language")
+@EqualsAndHashCode(of = "categoryId", callSuper = false)
 @NamedQuery(name="Language.findAll", query="SELECT l FROM Language l")
 public class Language extends AbstractEntity<Language> implements Serializable {
 	private static final long serialVersionUID = 1L;

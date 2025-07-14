@@ -1,7 +1,8 @@
-package com.example.domains.entities;
+package com.example.domain.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -9,22 +10,26 @@ import com.example.core.domain.entities.AbstractEntity;
 
 
 /**
- * The persistent class for the staff database table.
+ * The persistent class for the customer database table.
  * 
  */
 @Entity
-@Table(name="staff")
-@NamedQuery(name="Staff.findAll", query="SELECT s FROM Staff s")
-public class Staff extends AbstractEntity<Staff> implements Serializable {
+@Table(name="customer")
+@NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c")
+public class Customer extends AbstractEntity<Customer> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="staff_id", unique=true, nullable=false)
-	private int staffId;
+	@Column(name="customer_id", unique=true, nullable=false)
+	private int customerId;
 
 	@Column(nullable=false)
 	private byte active;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="create_date", nullable=false)
+	private Date createDate;
 
 	@Column(length=50)
 	private String email;
@@ -35,25 +40,8 @@ public class Staff extends AbstractEntity<Staff> implements Serializable {
 	@Column(name="last_name", nullable=false, length=45)
 	private String lastName;
 
-	@Column(name="last_update", nullable=false)
+	@Column(name="last_update")
 	private Timestamp lastUpdate;
-
-	@Column(length=40)
-	private String password;
-
-	@Lob
-	private byte[] picture;
-
-	@Column(nullable=false, length=16)
-	private String username;
-
-	//bi-directional many-to-one association to Payment
-	@OneToMany(mappedBy="staff")
-	private Set<Payment> payments;
-
-	//bi-directional many-to-one association to Rental
-	@OneToMany(mappedBy="staff")
-	private Set<Rental> rentals;
 
 	//bi-directional many-to-one association to Address
 	@ManyToOne
@@ -65,19 +53,23 @@ public class Staff extends AbstractEntity<Staff> implements Serializable {
 	@JoinColumn(name="store_id", nullable=false)
 	private Store store;
 
-	//bi-directional many-to-one association to Store
-	@OneToMany(mappedBy="staff")
-	private Set<Store> stores;
+	//bi-directional many-to-one association to Payment
+	@OneToMany(mappedBy="customer")
+	private Set<Payment> payments;
 
-	public Staff() {
+	//bi-directional many-to-one association to Rental
+	@OneToMany(mappedBy="customer")
+	private Set<Rental> rentals;
+
+	public Customer() {
 	}
 
-	public int getStaffId() {
-		return this.staffId;
+	public int getCustomerId() {
+		return this.customerId;
 	}
 
-	public void setStaffId(int staffId) {
-		this.staffId = staffId;
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
 
 	public byte getActive() {
@@ -86,6 +78,14 @@ public class Staff extends AbstractEntity<Staff> implements Serializable {
 
 	public void setActive(byte active) {
 		this.active = active;
+	}
+
+	public Date getCreateDate() {
+		return this.createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public String getEmail() {
@@ -120,74 +120,6 @@ public class Staff extends AbstractEntity<Staff> implements Serializable {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public byte[] getPicture() {
-		return this.picture;
-	}
-
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public Set<Payment> getPayments() {
-		return this.payments;
-	}
-
-	public void setPayments(Set<Payment> payments) {
-		this.payments = payments;
-	}
-
-	public Payment addPayment(Payment payment) {
-		getPayments().add(payment);
-		payment.setStaff(this);
-
-		return payment;
-	}
-
-	public Payment removePayment(Payment payment) {
-		getPayments().remove(payment);
-		payment.setStaff(null);
-
-		return payment;
-	}
-
-	public Set<Rental> getRentals() {
-		return this.rentals;
-	}
-
-	public void setRentals(Set<Rental> rentals) {
-		this.rentals = rentals;
-	}
-
-	public Rental addRental(Rental rental) {
-		getRentals().add(rental);
-		rental.setStaff(this);
-
-		return rental;
-	}
-
-	public Rental removeRental(Rental rental) {
-		getRentals().remove(rental);
-		rental.setStaff(null);
-
-		return rental;
-	}
-
 	public Address getAddress() {
 		return this.address;
 	}
@@ -204,26 +136,48 @@ public class Staff extends AbstractEntity<Staff> implements Serializable {
 		this.store = store;
 	}
 
-	public Set<Store> getStores() {
-		return this.stores;
+	public Set<Payment> getPayments() {
+		return this.payments;
 	}
 
-	public void setStores(Set<Store> stores) {
-		this.stores = stores;
+	public void setPayments(Set<Payment> payments) {
+		this.payments = payments;
 	}
 
-	public Store addStore(Store store) {
-		getStores().add(store);
-		store.setStaff(this);
+	public Payment addPayment(Payment payment) {
+		getPayments().add(payment);
+		payment.setCustomer(this);
 
-		return store;
+		return payment;
 	}
 
-	public Store removeStore(Store store) {
-		getStores().remove(store);
-		store.setStaff(null);
+	public Payment removePayment(Payment payment) {
+		getPayments().remove(payment);
+		payment.setCustomer(null);
 
-		return store;
+		return payment;
+	}
+
+	public Set<Rental> getRentals() {
+		return this.rentals;
+	}
+
+	public void setRentals(Set<Rental> rentals) {
+		this.rentals = rentals;
+	}
+
+	public Rental addRental(Rental rental) {
+		getRentals().add(rental);
+		rental.setCustomer(this);
+
+		return rental;
+	}
+
+	public Rental removeRental(Rental rental) {
+		getRentals().remove(rental);
+		rental.setCustomer(null);
+
+		return rental;
 	}
 
 }
