@@ -45,12 +45,13 @@ public class Actor extends AbstractEntity<Actor> implements Serializable {
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
 	private Timestamp lastUpdate;
 
-    @ManyToMany
-    @JoinTable(
-        name = "film_actor",
-        joinColumns = @JoinColumn(name = "actor_id"),
-        inverseJoinColumns = @JoinColumn(name = "film_id")
-    )
+    @ManyToMany(mappedBy = "actors")
+//    @ManyToMany
+//    @JoinTable(
+//        name = "film_actor",
+//        joinColumns = @JoinColumn(name = "actor_id"),
+//        inverseJoinColumns = @JoinColumn(name = "film_id")
+//    )
 	private Set<Film> films = new HashSet<Film>();
 
 	public Actor() {

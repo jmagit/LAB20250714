@@ -25,12 +25,14 @@ public class FilmCategory extends AbstractEntity<FilmCategory> implements Serial
 
 	//bi-directional many-to-one association to Category
 	@ManyToOne
-	@JoinColumn(name="category_id", nullable=false, insertable=false, updatable=false)
+	@MapsId("categoryId")
+	@JoinColumn(name="category_id")
 	private Category category;
 
 	//bi-directional many-to-one association to Film
 	@ManyToOne
-	@JoinColumn(name="film_id", nullable=false, insertable=false, updatable=false)
+	@MapsId("filmId")
+	@JoinColumn(name="film_id")
 	private Film film;
 
 	public FilmCategory() {

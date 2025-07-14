@@ -40,6 +40,11 @@ public class Language extends AbstractEntity<Language> implements Serializable {
 	public Language() {
 	}
 
+	public Language(int languageId) {
+		super();
+		this.languageId = languageId;
+	}
+
 	public int getLanguageId() {
 		return this.languageId;
 	}
