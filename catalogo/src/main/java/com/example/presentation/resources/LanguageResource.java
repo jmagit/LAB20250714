@@ -25,7 +25,7 @@ import com.example.core.domain.exceptions.BadRequestException;
 import com.example.core.domain.exceptions.InvalidDataException;
 import com.example.core.domain.exceptions.NotFoundException;
 import com.example.domain.entities.Language;
-import com.example.domain.entities.models.FilmShortDTO;
+import com.example.domain.entities.models.FilmShort;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -55,20 +55,20 @@ public class LanguageResource {
 
 	@GetMapping(path = "/{id}/peliculas")
 	@Transactional
-	public List<FilmShortDTO> getFilms(@PathVariable int id) throws Exception {
+	public List<FilmShort> getFilms(@PathVariable int id) throws Exception {
 		Optional<Language> rslt = dao.findById(id);
 		if (rslt.isEmpty())
 			throw new NotFoundException();
-		return rslt.get().getFilms().stream().map(item -> FilmShortDTO.from(item))
+		return rslt.get().getFilms().stream().map(item -> FilmShort.from(item))
 				.collect(Collectors.toList());
 	}
 	@GetMapping(path = "/{id}/vo")
 	@Transactional
-	public List<FilmShortDTO> getFilmsVO(@PathVariable int id) throws Exception {
+	public List<FilmShort> getFilmsVO(@PathVariable int id) throws Exception {
 		Optional<Language> rslt = dao.findById(id);
 		if (rslt.isEmpty())
 			throw new NotFoundException();
-		return rslt.get().getFilmsVO().stream().map(item -> FilmShortDTO.from(item))
+		return rslt.get().getFilmsVO().stream().map(item -> FilmShort.from(item))
 				.collect(Collectors.toList());
 	}
 
