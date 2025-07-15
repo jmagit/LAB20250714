@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.example.contracts.domain.repositories.ActorRepository;
-import com.example.contracts.domain.repositories.CategoryRepository;
-import com.example.contracts.domain.repositories.FilmRepository;
-import com.example.domain.entities.Film;
-import com.example.domain.entities.Language;
-import com.example.domain.entities.Film.Rating;
+import com.example.contracts.domain.repositories.sakila.ActorRepository;
+import com.example.contracts.domain.repositories.sakila.CategoryRepository;
+import com.example.contracts.domain.repositories.sakila.FilmRepository;
+import com.example.domain.entities.sakila.Film;
+import com.example.domain.entities.sakila.Language;
+import com.example.domain.entities.sakila.Film.Rating;
 
 import jakarta.transaction.Transactional;
 

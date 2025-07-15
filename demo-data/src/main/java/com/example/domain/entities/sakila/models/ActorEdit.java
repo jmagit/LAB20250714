@@ -1,4 +1,4 @@
-package com.example.domain.entities.models;
+package com.example.domain.entities.sakila.models;
 
 import org.springframework.data.annotation.PersistenceCreator;
 
