@@ -1,4 +1,4 @@
-package com.example.core.domain.validators;
+package com.example.core.domain.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
