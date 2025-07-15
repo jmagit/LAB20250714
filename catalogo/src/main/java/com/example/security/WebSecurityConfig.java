@@ -87,8 +87,9 @@ public class WebSecurityConfig {
 
 	private Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> getAuthorizeHttpRequests() {
 		return requests -> requests
-			      .requestMatchers(HttpMethod.GET).permitAll()
-			      .anyRequest().hasRole("EMPLEADOS");
+				.anyRequest().permitAll();
+//			      .requestMatchers(HttpMethod.GET).permitAll()
+//			      .anyRequest().hasRole("EMPLEADOS");
 //		return requests -> requests
 ////		      .requestMatchers(HttpMethod.GET, "/idiomas/v1/**").permitAll()
 ////		      .requestMatchers("/idiomas/v1/**").hasRole("EMPLEADOS")

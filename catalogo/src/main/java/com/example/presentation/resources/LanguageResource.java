@@ -28,6 +28,8 @@ import com.example.domain.entities.Language;
 import com.example.domain.entities.models.FilmShort;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -46,12 +48,18 @@ public class LanguageResource {
 
 	@GetMapping(path = "/{id}")
 	@JsonView(Language.Complete.class)
-	public Language getOne(@PathVariable int id) throws Exception {
-		Optional<Language> rslt = dao.findById(id);
-		if (rslt.isEmpty())
-			throw new NotFoundException();
-		return rslt.get();
+	public Language getOne(@PathVariable("id") @Parameter(schema = @Schema(type = "integer")) Language item) throws Exception {
+		return item;
 	}
+
+//	@GetMapping(path = "/{id}")
+//	@JsonView(Language.Complete.class)
+//	public Language getOne(@PathVariable int id) throws Exception {
+//		Optional<Language> rslt = dao.findById(id);
+//		if (rslt.isEmpty())
+//			throw new NotFoundException();
+//		return rslt.get();
+//	}
 
 	@GetMapping(path = "/{id}/peliculas")
 	@Transactional
