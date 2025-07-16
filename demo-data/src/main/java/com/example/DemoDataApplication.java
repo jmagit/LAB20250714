@@ -42,7 +42,7 @@ public class DemoDataApplication implements CommandLineRunner {
 		return  args -> {
 			System.err.println(daoActor.findById(1));
 			System.err.println(daoContactos.findById(1));
-			daoActor.save(new Actor());
+//			daoActor.save(new Actor());
 		};
 	}
 

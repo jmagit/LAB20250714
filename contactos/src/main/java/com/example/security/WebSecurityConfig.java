@@ -33,16 +33,10 @@ public class WebSecurityConfig {
 
 	private Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> getAuthorizeHttpRequests() {
 		return requests -> requests
-				.anyRequest().permitAll();
-//			      .requestMatchers(HttpMethod.GET).permitAll()
-//			      .anyRequest().hasRole("EMPLEADOS");
-//		return requests -> requests
-////		      .requestMatchers(HttpMethod.GET, "/idiomas/v1/**").permitAll()
-////		      .requestMatchers("/idiomas/v1/**").hasRole("EMPLEADOS")
-//		      .requestMatchers(HttpMethod.POST).hasRole("EMPLEADOS")
-//		      .requestMatchers(HttpMethod.PUT).hasRole("EMPLEADOS")
-//		      .requestMatchers(HttpMethod.DELETE).hasRole("EMPLEADOS")
-//		      .anyRequest().permitAll();
+    			.requestMatchers(HttpMethod.POST, "/api/contactos/v1").authenticated()
+    			.requestMatchers(HttpMethod.PUT, "/api/contactos/v1").authenticated()
+    			.requestMatchers(HttpMethod.DELETE, "/api/contactos/v1").authenticated()
+                .anyRequest().permitAll();
 	}
 
 	@Bean
