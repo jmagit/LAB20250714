@@ -1,6 +1,8 @@
 package com.example.domains.entities.cursos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 
@@ -36,7 +38,7 @@ public class Contacto extends AbstractEntity<Contacto> implements Serializable {
 	private String icono;
 
 	@Temporal(TemporalType.DATE)
-	private Date nacimiento;
+	private LocalDate nacimiento;
 
 	private String nombre;
 
@@ -97,11 +99,11 @@ public class Contacto extends AbstractEntity<Contacto> implements Serializable {
 		this.icono = icono;
 	}
 
-	public Date getNacimiento() {
+	public LocalDate getNacimiento() {
 		return this.nacimiento;
 	}
 
-	public void setNacimiento(Date nacimiento) {
+	public void setNacimiento(LocalDate nacimiento) {
 		this.nacimiento = nacimiento;
 	}
 

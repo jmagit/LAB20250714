@@ -1,6 +1,7 @@
 package com.example;
 
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
@@ -14,8 +15,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import com.example.contracts.domain.repositories.cursos.ContactosRepository;
 import com.example.contracts.domain.repositories.sakila.ActorRepository;
@@ -29,9 +34,7 @@ import com.example.domain.entities.sakila.models.ActorEdit;
 
 import jakarta.transaction.Transactional;
 
-@EnableAsync
-@EnableScheduling
-@SpringBootApplication()
+@SpringBootApplication
 public class DemoDataApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
@@ -39,26 +42,46 @@ public class DemoDataApplication implements CommandLineRunner {
 	}
 
 
-	@Bean
+	@Bean	
 	CommandLineRunner demo(ActorRepository daoActor, ContactosRepository daoContactos) {
-		return  args -> {
+		return args -> {
+			System.out.println("🚀 [Hilo: %s] Iniciando CommandLineRunner demo".formatted(Thread.currentThread().getName()));
 			System.err.println(daoActor.findById(1));
 			System.err.println(daoContactos.findById(1));
 //			daoActor.save(new Actor());
 		};
-	}
+	} 
+	
+//	@Autowired
+//	TaskScheduler taskScheduler;
+//	
+//	int cont = 0;
+//	
+//	@Scheduled(timeUnit = TimeUnit.SECONDS, fixedDelay = 5)
+//	void scheduledTask() {
+//		System.err.println("Scheduled task executed %d every 30 seconds".formatted(++cont));
+//		if(cont >= 10 && taskScheduler instanceof ThreadPoolTaskScheduler scheduler) {
+//			scheduler.shutdown();
+//			System.err.println("Scheduled task stopped after %d executions.".formatted(cont));
+//			System.exit(0);
+//		}
+//	}
 
 //	@Bean
 //	CommandLineRunner sakila(ActorRepository daoActor) {
 //		return  args -> {
-//			daoActor.findAllBy(ActorEdit.class).forEach(System.out::println);
+//			System.err.println("Acceso al datasource sakila");
+//			System.err.println(daoActor.findById(2));
+////			daoActor.findAllBy(ActorEdit.class).forEach(System.out::println);
 //		};
 //	}
 //
 //	@Bean
 //	CommandLineRunner cursos(ContactosRepository daoContactos) {
 //		return  args -> {
-//			daoContactos.findAll().forEach(System.out::println);
+//			System.err.println("Acceso al datasource cursos");
+//			System.err.println(daoContactos.findById(2));
+////			daoContactos.findAll().forEach(System.out::println);
 //		};
 //	}
 
@@ -84,11 +107,17 @@ public class DemoDataApplication implements CommandLineRunner {
 //	
 //	@Autowired
 //	CategoryRepository daoCategory;
+	@Autowired
+	ContactosRepository daoContactos;
 	
 	@Override
 	@Transactional
+	@Async
 	public void run(String... args) throws Exception {
 		System.err.println("Inicia");
+		System.out.println("🚀 [Hilo: %s] Iniciando CommandLineRunner run".formatted(Thread.currentThread().getName()));
+		listaTodos(daoContactos);
+		System.err.println("No espero");
 //		Film source = new Film(0, "uno", "uno", (short) 2001, new Language(1), new Language(1), (byte) 1,
 //				new BigDecimal("1.0"), 1, new BigDecimal("1.0"), Rating.GENERAL_AUDIENCES);
 //		source.addActor(daoActor.findById(1).get());
@@ -103,5 +132,17 @@ public class DemoDataApplication implements CommandLineRunner {
 //		var actual = daoFilm.save(source);
 //		System.err.println(actual);
 //		daoActor.findAllBy(ActorEdit.class).forEach(System.out::println);
+	}
+	
+	@Async
+	void listaTodos(ContactosRepository dao) {
+		System.out.println("🚀 [Hilo: %s] Iniciando Procesamiento de datos grandes.".formatted(Thread.currentThread().getName()));
+        try {
+            Thread.sleep(10000); // 10 segundos
+			System.out.println("Lista de contactos:");
+			dao.findAll().forEach(System.out::println);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 	}
 }
