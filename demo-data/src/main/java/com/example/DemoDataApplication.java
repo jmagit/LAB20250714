@@ -14,6 +14,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.example.contracts.domain.repositories.cursos.ContactosRepository;
 import com.example.contracts.domain.repositories.sakila.ActorRepository;
@@ -27,9 +29,9 @@ import com.example.domain.entities.sakila.models.ActorEdit;
 
 import jakarta.transaction.Transactional;
 
+@EnableAsync
+@EnableScheduling
 @SpringBootApplication()
-//@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-//@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
 public class DemoDataApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {

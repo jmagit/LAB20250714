@@ -82,15 +82,15 @@ public class CatalogoApplication implements CommandLineRunner {
     
 	@EventListener
 	void evento(DomainEvent event) {
-		log.warn(String.format("DomainEvent - ENTITY: %s (%s) KEY: %d OLD: %s NEW: %s", event.entity(), event.property(),
-				event.pk(), event.old(), event.current()));
+		log.warn("DomainEvent - ENTITY: %s (%s) KEY: %d OLD: %s NEW: %s".formatted(event.entity(), event.property(),
+                event.pk(), event.old(), event.current()));
 	}
 
 	// AOT: EntityChangedEventAspect
 	
 	@EventListener
 	void evento(EntityChangedEvent event) {
-		log.info(String.format("ENTITY: %s (%s) KEY: %d", event.entity(), event.type(), event.key()));
+		log.info("ENTITY: %s (%s) KEY: %d".formatted(event.entity(), event.type(), event.key()));
 	}
 
 
