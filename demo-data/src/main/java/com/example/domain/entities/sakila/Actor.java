@@ -18,6 +18,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 
 
@@ -37,6 +38,7 @@ public class Actor extends AbstractEntity<Actor> implements Serializable {
 	private int actorId;
 
 	@Column(name="first_name", nullable=false, length=45)
+	@NotBlank
 	private String firstName;
 
 	@Column(name="last_name", nullable=false, length=45)

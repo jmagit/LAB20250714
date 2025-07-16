@@ -5,8 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Transient;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
@@ -58,6 +61,19 @@ public abstract class AbstractEntity<E> {
 //	@JsonIgnore
 	public boolean isInvalid() {
 		return !isValid();
+	}
+	@PrePersist
+	protected void prePersist() {
+		if (isInvalid()) {
+			throw new ConstraintViolationException("Entidad no válida", getErrors());
+		}
+	}
+
+	@PreUpdate
+	protected void preUpdate() {
+		if (isInvalid()) {
+			throw new ConstraintViolationException("Entidad no válida", getErrors());
+		}
 	}
 
 }

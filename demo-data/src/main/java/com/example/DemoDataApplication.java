@@ -19,6 +19,7 @@ import com.example.contracts.domain.repositories.cursos.ContactosRepository;
 import com.example.contracts.domain.repositories.sakila.ActorRepository;
 import com.example.contracts.domain.repositories.sakila.CategoryRepository;
 import com.example.contracts.domain.repositories.sakila.FilmRepository;
+import com.example.domain.entities.sakila.Actor;
 import com.example.domain.entities.sakila.Film;
 import com.example.domain.entities.sakila.Language;
 import com.example.domain.entities.sakila.Film.Rating;
@@ -41,6 +42,7 @@ public class DemoDataApplication implements CommandLineRunner {
 		return  args -> {
 			System.err.println(daoActor.findById(1));
 			System.err.println(daoContactos.findById(1));
+			daoActor.save(new Actor());
 		};
 	}
 
