@@ -1,36 +1,17 @@
 package com.example;
 
-import java.math.BigDecimal;
-import java.util.concurrent.TimeUnit;
-
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
-import org.springframework.scheduling.TaskScheduler;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import com.example.contracts.domain.repositories.cursos.ContactosRepository;
 import com.example.contracts.domain.repositories.sakila.ActorRepository;
-import com.example.contracts.domain.repositories.sakila.CategoryRepository;
-import com.example.contracts.domain.repositories.sakila.FilmRepository;
-import com.example.domain.entities.sakila.Actor;
-import com.example.domain.entities.sakila.Film;
-import com.example.domain.entities.sakila.Language;
-import com.example.domain.entities.sakila.Film.Rating;
-import com.example.domain.entities.sakila.models.ActorEdit;
 
 import jakarta.transaction.Transactional;
 
@@ -42,15 +23,15 @@ public class DemoDataApplication implements CommandLineRunner {
 	}
 
 
-	@Bean	
-	CommandLineRunner demo(ActorRepository daoActor, ContactosRepository daoContactos) {
-		return args -> {
-			System.out.println("🚀 [Hilo: %s] Iniciando CommandLineRunner demo".formatted(Thread.currentThread().getName()));
-			System.err.println(daoActor.findById(1));
-			System.err.println(daoContactos.findById(1));
-//			daoActor.save(new Actor());
-		};
-	} 
+//	@Bean	
+//	CommandLineRunner demo(ActorRepository daoActor, ContactosRepository daoContactos) {
+//		return args -> {
+//			System.out.println("🚀 [Hilo: %s] Iniciando CommandLineRunner demo".formatted(Thread.currentThread().getName()));
+//			System.err.println(daoActor.findById(1));
+//			System.err.println(daoContactos.findById(1));
+////			daoActor.save(new Actor());
+//		};
+//	} 
 	
 //	@Autowired
 //	TaskScheduler taskScheduler;
@@ -116,8 +97,8 @@ public class DemoDataApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.err.println("Inicia");
 		System.out.println("🚀 [Hilo: %s] Iniciando CommandLineRunner run".formatted(Thread.currentThread().getName()));
-		listaTodos(daoContactos);
-		System.err.println("No espero");
+//		listaTodos(daoContactos);
+//		System.err.println("No espero");
 //		Film source = new Film(0, "uno", "uno", (short) 2001, new Language(1), new Language(1), (byte) 1,
 //				new BigDecimal("1.0"), 1, new BigDecimal("1.0"), Rating.GENERAL_AUDIENCES);
 //		source.addActor(daoActor.findById(1).get());
@@ -145,4 +126,21 @@ public class DemoDataApplication implements CommandLineRunner {
             Thread.currentThread().interrupt();
         }
 	}
+	
+//	@Bean
+//	JavaMailSender mailSender() {
+//		return new JavaMailSenderImpl();
+////		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+////		mailSender.setHost("localhost");
+////		return mailSender;
+//	}
+
+//	@Bean // this is a template message that we can pre-load with default state
+//	SimpleMailMessage templateMessage() {
+//		SimpleMailMessage message = new SimpleMailMessage();
+//		message.setFrom("customerservice@mycompany.example");
+//		message.setSubject("Your order");
+//		return message;
+//	}
+
 }

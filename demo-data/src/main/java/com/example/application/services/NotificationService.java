@@ -20,4 +20,19 @@ public class NotificationService {
 		srv.sendEmail(to, subject, body);
 	}
 
+	@Async
+	public void sendEmail(String to, String subject, String body) {
+        srv.sendEmail(to, subject, body);
+	}
+
+	@Async
+	public void sendEmail(String to, String subject, String body, String attachmentPath) {
+        srv.sendEmailWithAttachment(to, subject, body, attachmentPath);
+	}
+
+	@Async
+	public void sendMimeEmail(String to, String subject, String htmlBody, boolean isHtml) {
+        srv.sendMimeEmail(to, subject, htmlBody, isHtml);
+	}
+
 }

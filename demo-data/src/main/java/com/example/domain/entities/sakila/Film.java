@@ -176,6 +176,7 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 	@Column(name="replacement_cost", nullable=false, precision=10, scale=2)
 	private BigDecimal replacementCost;
 
+	@Column(name = "special_features")
 	@Convert(converter = SpecialFeatureConverter.class)
 	private Set<SpecialFeature> specialFeatures = EnumSet.noneOf(SpecialFeature.class);
 
