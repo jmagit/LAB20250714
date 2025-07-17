@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.contracts.domain.services.FilmService;
@@ -43,6 +44,7 @@ import com.example.domain.entities.models.FilmEdit;
 import com.example.domain.entities.models.FilmShort;
 import com.example.infraestructure.proxies.MeGustaProxy;
 
+import feign.FeignException;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -300,8 +302,12 @@ public class FilmResource {
 	@PostMapping(path = "{id}/like")
 	public String like(@Parameter(description = "Identificador de la pelicula", required = true) @PathVariable int id,
 			@Parameter(hidden = true) @RequestHeader(required = false) String authorization) throws Exception {
-		if (authorization == null)
-			return proxy.sendLike(id);
-		return proxy.sendLike(id, authorization);
+		try {
+			if (authorization == null)
+				return proxy.sendLike(id);
+			return proxy.sendLike(id, authorization);
+		} catch(FeignException ex) {
+			throw new ResponseStatusException(ex.status() < 0 ? 500 : ex.status(), ex.getMessage(), ex);
+		}
 	}
 }
