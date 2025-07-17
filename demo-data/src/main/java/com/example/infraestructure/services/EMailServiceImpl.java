@@ -46,13 +46,12 @@ public class EMailServiceImpl implements EMailService {
 			FileSystemResource file = new FileSystemResource(new File(attachmentPath));
 			MimeMessage message = mailSender.createMimeMessage();
 			// true = multipart message, false = single part message
-			// true = HTML, false = plain text
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-			helper.setFrom(from); // Reemplaza con tu remitente configurado
+			helper.setFrom(from);
 			helper.setTo(to);
 			helper.setSubject(subject);
-			helper.setText(body); // El segundo parámetro indica si el contenido es HTML
+			helper.setText(body); // true = HTML, false = plain text
 			helper.addAttachment(file.getFilename(), file);
 			mailSender.send(message);
 			System.out.println("Correo MIME (HTML/Adjuntos) enviado a: " + to);
@@ -66,24 +65,23 @@ public class EMailServiceImpl implements EMailService {
 	public void sendMimeEmail(String to, String subject, String htmlBody, boolean isHtml) {
 		System.out.println("🚀 [Hilo: %s] Iniciando envío de correo a: %s".formatted(Thread.currentThread().getName(), to));
 		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			// true = multipart message, false = single part message
-			// true = HTML, false = plain text
-			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-	
-			helper.setFrom(from); // Reemplaza con tu remitente configurado
-			helper.setTo(to);
-			helper.setSubject(subject);
-			helper.setText(htmlBody, isHtml); // El segundo parámetro indica si el contenido es HTML
-	
-			// Ejemplo de cómo adjuntar un archivo (necesitas la ruta real del archivo)
-			// FileSystemResource file = new FileSystemResource(new
-			// File("ruta/a/tu/archivo.pdf"));
-			// helper.addAttachment("nombreArchivo.pdf", file);
-	
-			mailSender.send(message);
+//			MimeMessage message = mailSender.createMimeMessage();
+//			// true = multipart message, false = single part message			
+//			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+//			helper.setFrom(from);
+//			helper.setTo(to);
+//			helper.setSubject(subject);
+//			helper.setText(htmlBody, isHtml); // true = HTML, false = plain text
+//			mailSender.send(message);
+			mailSender.send(message -> {
+				MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+				helper.setFrom(from);
+				helper.setTo(to);
+				helper.setSubject(subject);
+				helper.setText(htmlBody, isHtml); // true = HTML, false = plain text
+			});
 			System.out.println("Correo MIME (HTML/Adjuntos) enviado a: " + to);
-		} catch (MessagingException e) {
+		} catch (Exception e) {
 			throw new RuntimeException("Error al enviar el correo MIME", e);
 		}
 		System.out.println("✅ [Hilo: %s] Correo MIME (HTML/Adjuntos) enviado a %s (%s)".formatted(Thread.currentThread().getName(), to, subject));
