@@ -106,9 +106,9 @@ public class CatalogoApplication implements CommandLineRunner {
 //	@EventListener
 //	void evento(EntityChangedEvent event) throws JsonProcessingException {
 //		kafkaTemplate.send("catalogo-events", event.entity(), converter.writeValueAsString(event))
-//			.thenAccept(result -> log.warning(String.format("EVENT: %s OFFSET: %s", event, result.getRecordMetadata().offset())))
+//			.thenAccept(result -> log.warning("EVENT: %s OFFSET: %s".formatted(event, result.getRecordMetadata().offset())))
 //			.exceptionally(ex -> {
-//				log.severe(String.format("EVENT: %s ERROR: %s", event, ex.getMessage()));
+//				log.severe("EVENT: %s ERROR: %s".formatted(event, ex.getMessage()));
 //				return null;
 //			});
 //	}
